@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.resume %}
+<a class="btn btn-success" href="/resume/{{ user.id }}">Редактировать резюме</a>
+{% elif not user.is_employer %}
+<a class="btn btn-success" href="/resume/{{ user.id }}">Создать резюме</a>
+<a class="btn btn-success" href="/employer/{{ user.id }}">Стать работодателем</a>
+{% else %}
+<a class="btn btn-success" href="/employer_vacancies/{{ user.id }}">Мои вакансии</a>
+{% endif %}
+<a class="btn btn-success" href="/logout">Выйти из аккаунта</a>
+
+{% endblock %}

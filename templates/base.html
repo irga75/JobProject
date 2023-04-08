@@ -15,11 +15,11 @@
     <div class="p-3 mb-2 bg-light text-dark">
         <table class="h1_table">
    <tr>
-    <td style="width: 35%;"><h1><a href="/"><img src="static/img/logo.png" alt="Логотип Jooble"></a></h1></td>
+    <td style="width: 35%;"><h1><a href="/"><img src="/static/img/logo.png" alt="Логотип Jooble"></a></h1></td>
     <td style="width: 55%; font-size: x-large;"><span class="text-muted">Mars One</span></td>
     <td style="width: 10%;">
         {% if current_user.is_authenticated %}
-            <a class="navbar-brand" href="/logout" style="font-size: x-large;">{{ current_user.name }}</a>
+            <a class="navbar-brand" href="/personal_account/{{ current_user.id }}" style="font-size: x-large;">{{ current_user.name }}</a>
         {% else %}
             <a class="btn btn-success" href="/login">Login</a>
             <a class="btn btn-primary" href="/register">Register</a>

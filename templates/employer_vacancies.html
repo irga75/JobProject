@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a class="btn btn-success" href="/make_vacancy/{{ id }}">Создать вакансию</a>
+{% for item in vacancies %}
+        <div class="list-group">
+          <a href="/vacancy/{{ item.id }}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ item.title }}</h5>
+              <small>Текст</small>
+            </div>
+            <p class="mb-1">{{ item.description }}</p>
+            <small>{{ item.owner }}</small>
+          </a>
+        </div>
+{% endfor %}
+
+{% endblock %}
