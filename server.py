@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask, render_template, redirect
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
 from data.users import User
@@ -44,6 +44,7 @@ def logout():
     return redirect("/")
 
 
+@login_required
 @app.route('/employer/<int:id>')
 def employer(id):
     db_sess = db_session.create_session()
@@ -100,6 +101,7 @@ def vacancy_page(id):
     return render_template('vacancy.html', vacancy=item)
 
 
+@login_required
 @app.route('/personal_account/<int:id>')
 def personal_account(id):
     db_sess = db_session.create_session()
@@ -108,6 +110,7 @@ def personal_account(id):
     return render_template('personal_account.html', user=user)
 
 
+@login_required
 @app.route('/resume/<int:id>', methods=['GET', 'POST'])
 def resume(id):
     form = ResumeForm()
@@ -133,6 +136,7 @@ def employer_vacancies(id):
     return render_template('employer_vacancies.html', vacancies=vacancies, id=id)
 
 
+@login_required
 @app.route('/make_vacancy/<int:id>', methods=['GET', 'POST'])
 def make_vacancy(id):
     form = VacancyForm()
