@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
@@ -126,6 +126,15 @@ def resume(id):
     logging.warning(form.resume)
     logging.warning(user.resume)
     return render_template('resume.html', title='Резюме', form=form, user=user)
+
+
+@app.route('/download_resume/<int:id>', methods=['GET'])
+def download_resume(id):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == id).first()
+    with open('temp', 'w') as file:
+        file.write(user.resume)
+    return send_file('temp', download_name=f'{user.name} resume.txt', as_attachment=True)
 
 
 @app.route('/resumes', methods=['GET'])
