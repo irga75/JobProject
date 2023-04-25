@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% if user.resume %}
+{% if user.resume_id %}
 <a class="btn btn-success" href="/resume/{{ user.id }}">Редактировать резюме</a>
 {% elif not user.is_employer %}
 <a class="btn btn-success" href="/resume/{{ user.id }}">Создать резюме</a>

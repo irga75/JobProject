@@ -2,6 +2,7 @@ import datetime
 
 import sqlalchemy
 from flask_login import UserMixin
+from sqlalchemy import orm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from data.db_session import SqlAlchemyBase
@@ -13,13 +14,15 @@ class User(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    resume = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    resume_id = sqlalchemy.Column(sqlalchemy.Integer)
     email = sqlalchemy.Column(sqlalchemy.String,
                               index=True, unique=True, nullable=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
     is_employer = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+
+    # resume = orm.relationship('Resume')
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

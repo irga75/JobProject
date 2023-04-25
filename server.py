@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
+from data.resumes import Resume
 from data.users import User
 from data.vacancies import Vacancy
 from forms.login_user_form import LoginForm
@@ -116,22 +117,31 @@ def resume(id):
     form = ResumeForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.id == id).first()
-        user.resume = form.resume.data
+        resume = db_sess.query(Resume).filter(Resume.owner_id == id).first()
+        resume.text = form.resume.data
+        resume.sphere = form.sphere.data
+        resume.education = form.education.data
+        resume.experience_time = form.experience_time.data
         db_sess.commit()
         return redirect(f'/personal_account/{id}')
     db_sess = db_session.create_session()
-    user = db_sess.query(User).filter(User.id == id).first()
-    form.resume.default = user.resume
-    logging.warning(form.resume)
-    logging.warning(user.resume)
-    return render_template('resume.html', title='Резюме', form=form, user=user)
+    resume = db_sess.query(Resume).filter(Resume.owner_id == id).first()
+    if not resume:
+        resume = Resume()
+        resume.owner_id = id
+        db_sess.add(resume)
+        user = db_sess.query(User).filter(User.id == id).first()
+        user.resume_id = resume.id
+        db_sess.commit()
+    # logging.warning(form.resume)
+    # logging.warning(user.resume)
+    return render_template('resume.html', title='Резюме', form=form, resume=resume)
 
 
 @app.route('/resumes', methods=['GET'])
 def all_resumes():
     db_sess = db_session.create_session()
-    data = db_sess.query(User).all()
+    data = db_sess.query(Resume).all()
     return render_template('all_resumes.html', title='Все резюме', data=data)
 
 
@@ -139,7 +149,6 @@ def all_resumes():
 def employer_vacancies(id):
     db_sess = db_session.create_session()
     vacancies = db_sess.query(Vacancy).filter(Vacancy.owner == id)
-    return render_template('employer_vacancies.html', vacancies=vacancies, id=id)
     return render_template('employer_vacancies.html', vacancies=vacancies, id=id)
 
 
