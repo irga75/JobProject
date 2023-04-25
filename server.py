@@ -2,6 +2,7 @@ import logging
 
 from flask import Flask, render_template, redirect, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+import os
 
 from data import db_session
 from data.resumes import Resume
@@ -22,7 +23,8 @@ login_manager.init_app(app)
 def main():
     logging.basicConfig(level=logging.INFO, filename='info.txt')
     db_session.global_init("db/blogs.db")
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(port=port, host='0.0.0.0', debug=False)
 
 
 @login_manager.user_loader
