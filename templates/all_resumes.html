@@ -3,6 +3,7 @@
 {% block content %}
     <a class="btn btn-primary" href="/">Посмотреть вакансии</a>
     {% for item in data %}
+        {% if item.resume %}
         <div class="list-group">
           <a href="/resume/{{ item.id }}" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
@@ -12,5 +13,6 @@
             <p class="mb-1">{{ item.resume }}</p>
           </a>
         </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

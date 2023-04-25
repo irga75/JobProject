@@ -152,6 +152,9 @@ def make_vacancy(id):
         vacancy = Vacancy(
             title=form.title.data,
             description=form.description.data,
+            sphere=form.sphere.data,
+            salary=form.salary.data,
+            min_experience=form.min_experience.data,
             owner=id
         )
         db_sess.add(vacancy)
