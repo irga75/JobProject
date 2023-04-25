@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>Резюме пользователя {{ resume.owner.name }}</h2>
+<p><b>email:</b> {{ resume.owner.email }}</p>
 <p>{{ resume.text }}</p>
 <p><b>Сфера деятельности:</b> {{ resume.sphere }}</p>
 <p><b>Стаж работы:</b> {{ resume.experience_time }}</p>
