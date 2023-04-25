@@ -21,7 +21,7 @@ login_manager.init_app(app)
 def main():
     logging.basicConfig(level=logging.INFO, filename='info.txt')
     db_session.global_init("db/blogs.db")
-    app.run()
+    app.run(debug=True, host='127.0.0.1', port=5000)
 
 
 @login_manager.user_loader
@@ -126,6 +126,13 @@ def resume(id):
     logging.warning(form.resume)
     logging.warning(user.resume)
     return render_template('resume.html', title='Резюме', form=form, user=user)
+
+
+@app.route('/resumes', methods=['GET'])
+def all_resumes():
+    db_sess = db_session.create_session()
+    data = db_sess.query(User).all()
+    return render_template('all_resumes.html', title='Все резюме', data=data)
 
 
 @app.route('/employer_vacancies/<int:id>')

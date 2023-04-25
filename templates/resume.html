@@ -1,27 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.resume.label }}<br>
-        <textarea id="resume" name="resume" rows="15" class="form-control">{{ user.resume }}</textarea><br>
-        {% for error in form.resume.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <div style="width: 19%">
-    <div class="row">
-  <div class="col">
-    {{ form.submit(type="submit", class="btn btn-primary") }}
-  </div>
-  <div class="col">
-    <a class="btn btn-light" href="/personal_account/{{ user.id }}">Отмена</a>
-  </div>
+{% if current_user.id == user.id %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.resume.label }}<br>
+            <textarea id="resume" name="resume" rows="15" class="form-control">{{ user.resume }}</textarea><br>
+            {% for error in form.resume.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <div style="width: 19%">
+        <div class="row">
+      <div class="col">
+        {{ form.submit(type="submit", class="btn btn-primary") }}
+      </div>
+      <div class="col">
+        <a class="btn btn-light" href="/personal_account/{{ user.id }}">Отмена</a>
+      </div>
+        </div>
     </div>
-</div>
-    {{message}}
-</form>
+        {{message}}
+    </form>
+{% else %}
+    <h2>Резюме пользователя {{user.name}}</h2>
+    <br>
+    <p>{{user.resume}}</p>
+    <br>
+    <a class="btn btn-primary" href="/resumes">Ко всем резюме</a>
+{% endif %}
 {% endblock %}

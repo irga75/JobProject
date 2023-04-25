@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a class="btn btn-primary" href="/">Посмотреть вакансии</a>
+    {% for item in data %}
+        <div class="list-group">
+          <a href="/resume/{{ item.id }}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ item.name }}</h5>
+              <small>{{ item.email }}</small>
+            </div>
+            <p class="mb-1">{{ item.resume }}</p>
+          </a>
+        </div>
+    {% endfor %}
+{% endblock %}
