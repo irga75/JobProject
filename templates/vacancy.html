@@ -3,4 +3,11 @@
 {% block content %}
 <h2>{{ vacancy.title }}</h2>
 {{ vacancy.description }}
+<br>
+<b>Сфера деятельности:</b> {{ vacancy.sphere }}
+<br>
+<b>Зарплата:</b> {{ vacancy.salary }}
+<br>
+<b>Минимальный опыт:</b> {{ vacancy.min_experience }}
+<br>
 {% endblock %}

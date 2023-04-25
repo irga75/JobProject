@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Резюме пользователя {{ resume.owner.name }}</h2>
+<p>{{ resume.text }}</p>
+<p><b>Сфера деятельности:</b> {{ resume.sphere }}</p>
+<p><b>Стаж работы:</b> {{ resume.experience_time }}</p>
+<p><b>Образование:</b> {{ resume.education }}</p>
+{% endblock %}

@@ -90,6 +90,7 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+        login_user(user)
         return redirect('/')
     return render_template('register_user.html', title='Регистрация', form=form)
 
@@ -142,6 +143,7 @@ def resume(id):
 def all_resumes():
     db_sess = db_session.create_session()
     data = db_sess.query(Resume).all()
+    print(data)
     return render_template('all_resumes.html', title='Все резюме', data=data)
 
 
@@ -161,12 +163,22 @@ def make_vacancy(id):
         vacancy = Vacancy(
             title=form.title.data,
             description=form.description.data,
+            sphere=form.sphere.data,
+            salary=form.salary.data,
+            min_experience=form.min_experience.data,
             owner=id
         )
         db_sess.add(vacancy)
         db_sess.commit()
         return redirect(f'/personal_account/{id}')
     return render_template('vacancy_make.html', title='Резюме', form=form, id=id)
+
+
+@app.route('/show_resume/<int:resume_id>')
+def show_resume(resume_id):
+    db_sess = db_session.create_session()
+    resume = db_sess.query(Resume).filter(Resume.id == resume_id).first()
+    return render_template('resume_card.html', resume=resume, title='Карта резюме')
 
 
 if __name__ == '__main__':

@@ -18,6 +18,9 @@ class Vacancy(SqlAlchemyBase, UserMixin):
     title = sqlalchemy.Column(sqlalchemy.String)
     description = sqlalchemy.Column(sqlalchemy.String)
     owner = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    sphere = sqlalchemy.Column(sqlalchemy.String)
+    salary = sqlalchemy.Column(sqlalchemy.Integer)
+    min_experience = sqlalchemy.Column(sqlalchemy.Integer)
     # created_date = sqlalchemy.Column(sqlalchemy.DateTime,
     #                                  default=datetime.datetime.now)
 
