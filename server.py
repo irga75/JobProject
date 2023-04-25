@@ -1,6 +1,6 @@
 import logging
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
@@ -134,8 +134,6 @@ def resume(id):
         user = db_sess.query(User).filter(User.id == id).first()
         user.resume_id = resume.id
         db_sess.commit()
-    # logging.warning(form.resume)
-    # logging.warning(user.resume)
     return render_template('resume.html', title='Резюме', form=form, resume=resume)
 
 
@@ -179,6 +177,24 @@ def show_resume(resume_id):
     db_sess = db_session.create_session()
     resume = db_sess.query(Resume).filter(Resume.id == resume_id).first()
     return render_template('resume_card.html', resume=resume, title='Карта резюме')
+
+
+@app.route('/download_resume/<int:id>', methods=['GET'])
+def download_resume(id):
+    db_sess = db_session.create_session()
+    resume = db_sess.query(Resume).filter(Resume.id == id).first()
+    with open('temp', 'w') as file:
+        text = f"""Резюмэ пользователя {resume.owner.name}
+email: {resume.owner.email}
+
+{resume.text}
+
+Сфера деятельности: {resume.sphere}
+Стаж работы: {resume.experience_time}
+Образование: {resume.education}
+"""
+        file.write(text)
+    return send_file('temp', download_name=f'{resume.owner.name} resume.txt', as_attachment=True)
 
 
 if __name__ == '__main__':
